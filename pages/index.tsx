@@ -1,6 +1,5 @@
 import type { NextPage } from 'next'
 import { useRouter } from 'next/router'
-
 import githubIcon from '@iconify/icons-simple-icons/github'
 import type { NearestColorResult } from '../lib/nearestColor'
 import nearestColor, {
@@ -42,7 +41,7 @@ const Home: NextPage = () => {
   const handleColorNameClick = async (colorName: string) => {
     // It's a little weird to reformat the string before writing to clipboard but this is
     // how we define the palette in CSS Custom Properties so why not 🤷‍♂️
-    const colorVariableString = `var(--${colorName})`
+    const colorVariableString = `brand-${colorName}`
 
     await copyTextToClipboard(colorVariableString)
     alert(`Copied ${colorVariableString} to clipboard`)
@@ -129,11 +128,11 @@ const Home: NextPage = () => {
         </header>
 
         <div className="flex w-10/12 my-8">
-          <div className="flex flex-wrap justify-center w-full gap-x-16 gap-y-8">
+          <div className="flex flex-wrap justify-center w-full gap-x-8 gap-y-8">
             {Object.entries(paletteObjectsGroupedByName).map(
               ([groupName, group]) => (
-                <div key={groupName} className="w-48">
-                  <h3 className="mb-2 text-lg font-semibold">
+                <div key={groupName} className="w-[17rem]">
+                  <h3 className="mb-2 text-left mx-1 text-lg font-semibold border-b border-slate-100">
                     {sentenceCase(groupName)}
                   </h3>
                   <ol>
@@ -157,7 +156,7 @@ const Home: NextPage = () => {
                           title={`${colorData.value}`}
                         >
                           <div
-                            className="w-12 h-8 mr-8 border border-black rounded cursor-pointer"
+                            className="w-12 h-8 mr-4 border border-black rounded cursor-pointer"
                             style={{ backgroundColor: colorData.value }}
                             onClick={() => handleSwatchClick(colorData.value)}
                           />
@@ -165,7 +164,7 @@ const Home: NextPage = () => {
                             className="cursor-pointer"
                             onClick={() => handleColorNameClick(colorName)}
                           >
-                            {colorName}
+                            brand-{colorName}
                           </span>
                         </div>
                         {colorName === result?.name && (

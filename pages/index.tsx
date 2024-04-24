@@ -157,7 +157,7 @@ const Home: NextPage = () => {
                           </div>
                         )}
                         <div
-                          className="p-1 flex items-center"
+                          className="p-1 relative flex items-center"
                           title={`${colorData.value}`}
                         >
                           <div
@@ -166,14 +166,17 @@ const Home: NextPage = () => {
                             onClick={() => handleSwatchClick(colorData.value)}
                           />
                           <div
-                            className="relative group"
+                            className="group"
                           >
                             <span className="cursor-pointer" onClick={() => handleColorNameClick(colorName)}>brand-{colorName}</span>
-                            <div className="text-sm z-20 pointer-events-none group-hover:pointer-events-auto opacity-0 w-[max-content] left-1/2 -translate-x-1/2 translate-y-3/4 gap-1 flex group-hover:opacity-100 rounded-full absolute top-0 left-4 bg-black text-white shadow-xl">
-                              <div onClick={() => handleTailwindClassClick(`text-brand-${colorName}`)} className="cursor-pointer py-1 px-2 rounded-full hover:bg-blue-800">
+                            <div className="text-sm z-20 pointer-events-none group-hover:pointer-events-auto opacity-0 w-[max-content] left-1/2 -translate-x-1/2 translate-y-[100%] flex group-hover:opacity-100 rounded-full absolute top-0 left-4 bg-black text-white shadow-xl">
+                              <svg width={16} height={9} fill="none" xmlns="http://www.w3.org/2000/svg" className="absolute left-1/2 -translate-x-1/2 top-0 -translate-y-[50%] z-0 pointer-events-none">
+                                <path d="M6.438.952a2 2 0 0 1 3.124 0L16 9H0L6.438.952Z" fill="#000" />
+                              </svg>
+                              <div onClick={() => handleTailwindClassClick(`text-brand-${colorName}`)} className="cursor-pointer rounded-l-full py-1 px-2 hover:bg-blue-700 relative z-10">
                                 Tailwind text class
                               </div>
-                              <div onClick={() => handleTailwindClassClick(`bg-brand-${colorName}`)} className="cursor-pointer py-1 px-2 rounded-full hover:bg-blue-800">
+                              <div onClick={() => handleTailwindClassClick(`bg-brand-${colorName}`)} className="cursor-pointer rounded-r-full py-1 px-2 hover:bg-blue-700 relative z-10">
                                 Tailwind bg class
                               </div>
                             </div>

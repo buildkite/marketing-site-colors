@@ -1,6 +1,5 @@
 import type { NextPage } from 'next'
 import { useRouter } from 'next/router'
-
 import githubIcon from '@iconify/icons-simple-icons/github'
 import type { NearestColorResult } from '../lib/nearestColor'
 import nearestColor, {
@@ -42,10 +41,15 @@ const Home: NextPage = () => {
   const handleColorNameClick = async (colorName: string) => {
     // It's a little weird to reformat the string before writing to clipboard but this is
     // how we define the palette in CSS Custom Properties so why not 🤷‍♂️
-    const colorVariableString = `var(--${colorName})`
+    const colorVariableString = `brand-${colorName}`
 
     await copyTextToClipboard(colorVariableString)
     alert(`Copied ${colorVariableString} to clipboard`)
+  }
+
+  const handleTailwindClassClick = async (className: string) => {
+    await copyTextToClipboard(className)
+    alert(`Copied ${className} to clipboard`)
   }
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -90,7 +94,7 @@ const Home: NextPage = () => {
       </Head>
 
       <main className="flex flex-col items-center flex-1 w-full text-center">
-        <header className="sticky top-0 flex flex-col items-center justify-center w-full pt-8 pb-4 bg-white border-b">
+        <header className="sticky z-50 top-0 flex flex-col items-center justify-center w-full pt-8 pb-4 bg-white border-b">
           <form className="block w-10/12" onSubmit={onSubmit}>
             <div>
               <label
@@ -117,67 +121,74 @@ const Home: NextPage = () => {
                 Find
               </button>
             </div>
-            <div className="h-4 pt-2 mb-2 italic">
+            <div className="h-4 pt-2 mb-2">
               {validationError ? (
                 <span className="text-red-500">{validationError}</span>
               ) : null}
               {result ? (
-                <span className="font-semibold text-gray-500">{`Nearest color: "${result.name}" (${resultMatchPercentageText})`}</span>
+                <span className="font-semibold text-gray-500">{`Nearest color: "brand-${result.name}" (${resultMatchPercentageText})`}</span>
               ) : null}
             </div>
           </form>
         </header>
 
         <div className="flex w-10/12 my-8">
-          <div className="flex flex-wrap justify-center w-full gap-x-16 gap-y-8">
+          <div className="flex flex-wrap justify-center w-full gap-x-8 gap-y-8">
             {Object.entries(paletteObjectsGroupedByName).map(
               ([groupName, group]) => (
-                <div key={groupName} className="w-48">
-                  <h3 className="mb-2 text-lg font-semibold">
+                <div key={groupName} className="w-[17rem]">
+                  <h3 className="mb-2 text-left mx-1 text-lg font-semibold border-b border-slate-100">
                     {sentenceCase(groupName)}
                   </h3>
-                  <ol>
+                  <ol className="space-y-2">
                     {Object.entries(group).map(([colorName, colorData]) => (
                       <li
                         id={colorName}
                         key={colorName}
-                        className={`p-1 bg-white border rounded transition ease-in-out duration-125 scroll-mt-56 ${
+                        className={`bg-white border rounded transition ease-in-out duration-125 scroll-mt-56 ${
                           colorName === result?.name
-                            ? 'scale-150 shadow-[0_25px_50px_-12px_rgb(0,0,0)]'
+                            ? 'scale-150 shadow-[0_25px_50px_-12px_rgb(0,0,0)] relative z-40'
                             : 'border-transparent'
                         }`}
                       >
                         {colorName === result?.name && (
-                          <div className="mb-1 italic text-gray-500">
+                          <div className="mb-1 text-gray-500">
                             {resultMatchPercentageText}
                           </div>
                         )}
                         <div
-                          className="flex items-center"
+                          className="p-1 flex items-center"
                           title={`${colorData.value}`}
                         >
                           <div
-                            className="w-12 h-8 mr-8 border border-black rounded cursor-pointer"
+                            className="w-12 h-8 mr-4 border border-black rounded cursor-pointer"
                             style={{ backgroundColor: colorData.value }}
                             onClick={() => handleSwatchClick(colorData.value)}
                           />
-                          <span
-                            className="cursor-pointer"
-                            onClick={() => handleColorNameClick(colorName)}
+                          <div
+                            className="relative group"
                           >
-                            {colorName}
-                          </span>
+                            <span className="cursor-pointer" onClick={() => handleColorNameClick(colorName)}>brand-{colorName}</span>
+                            <div className="text-sm z-20 pointer-events-none group-hover:pointer-events-auto opacity-0 w-[max-content] left-1/2 -translate-x-1/2 translate-y-3/4 gap-1 flex group-hover:opacity-100 rounded-full absolute top-0 left-4 bg-black text-white shadow-xl">
+                              <div onClick={() => handleTailwindClassClick(`text-brand-${colorName}`)} className="cursor-pointer py-1 px-2 rounded-full hover:bg-blue-800">
+                                Tailwind text class
+                              </div>
+                              <div onClick={() => handleTailwindClassClick(`bg-brand-${colorName}`)} className="cursor-pointer py-1 px-2 rounded-full hover:bg-blue-800">
+                                Tailwind bg class
+                              </div>
+                            </div>
+                          </div>
                         </div>
                         {colorName === result?.name && (
-                          <div className="flex items-center pt-1 mt-1 border-0 border-t">
+                          <div className="p-1 bg-gray-100 flex items-center pt-1 mt-1 border-0 border-t">
                             <div
-                              className="w-12 h-8 mr-8 border border-black rounded cursor-pointer"
+                              className="w-12 h-8 mr-4 border border-black rounded cursor-pointer"
                               style={{ backgroundColor: validColorFromSearch }}
                               onClick={() =>
                                 handleSwatchClick(validColorFromSearch)
                               }
                             />
-                            <span className="italic text-gray-500">
+                            <span className="text-gray-500">
                               {validColorFromSearch}
                             </span>
                           </div>

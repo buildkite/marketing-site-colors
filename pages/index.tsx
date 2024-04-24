@@ -169,7 +169,7 @@ const Home: NextPage = () => {
                             className="group"
                           >
                             <span className="cursor-pointer" onClick={() => handleColorNameClick(colorName)}>brand-{colorName}</span>
-                            <div className="text-sm z-20 pointer-events-none group-hover:pointer-events-auto opacity-0 w-[max-content] left-1/2 -translate-x-1/2 translate-y-[100%] flex group-hover:opacity-100 rounded-full absolute top-0 left-4 bg-black text-white shadow-xl">
+                            <div className="text-sm z-20 pointer-events-none group-hover:pointer-events-auto opacity-0 w-[max-content] left-1/2 translate-y-[100%] flex group-hover:opacity-100 rounded-full absolute top-0 left-4 bg-black text-white shadow-xl">
                               <svg width={16} height={9} fill="none" xmlns="http://www.w3.org/2000/svg" className="absolute left-1/2 -translate-x-1/2 top-0 -translate-y-[50%] z-0 pointer-events-none">
                                 <path d="M6.438.952a2 2 0 0 1 3.124 0L16 9H0L6.438.952Z" fill="#000" />
                               </svg>
